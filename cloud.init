@@ -1,0 +1,16 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - git
+  - docker.io
+  - docker-compose
+
+runcmd:
+  - mkdir -p /buddy
+  - git clone https://github.com/sztwiorok/wp-cloud-init.git /tmp/repo
+  - cp /tmp/repo/docker-compose.yml /buddy/docker-compose.yml
+  - cp /tmp/repo/wp.service /etc/systemd/system/wp.service
+  - systemctl daemon-reload
+  - systemctl enable wp.service
+  - systemctl start wp.service
