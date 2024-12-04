@@ -6,8 +6,10 @@ Requires=docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/bash -c "docker compose -f /buddy/docker-compose.yml up --detach"
-ExecStop=/bin/bash -c "docker compose -f /buddy/docker-compose.yml stop"
+ExecStartPre=/usr/bin/docker pull mysql:5.7
+ExecStartPre=/usr/bin/docker pull wordpress:latest
+ExecStart=/bin/bash -c "docker-compose -f /buddy/docker-compose.yml up --detach"
+ExecStop=/bin/bash -c "docker-compose -f /buddy/docker-compose.yml stop"
 
 [Install]
 WantedBy=multi-user.target
